@@ -17,22 +17,26 @@ function validateForm() {
     // Validação simples de email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!name) {
-        firstNameError.textContent = "Por favor, preencha o campo de nome.";
-        return false;
-    } else if (!lastName) {
-        lastNameError.textContent = "Por favor, preencha o campo de sobrenome.";
-        return false;
-    } else if (!email) {
-        emailError.textContent = "Por favor, preencha o campo de email.";
-        return false;
-    } else if (!message) {
-        messageError.textContent = "Por favor, preencha o campo de mensagem.";
-        return false;
-    } else if (!emailPattern.test(email)) {
-        emailError.textContent = "Por favor, insira um email válido.";
-        return false;
-    } else {
+    if (!name || !lastName || !email || !message) {
+        if (!name) {firstNameError.textContent = "Por favor, preencha o campo de nome.";}
+        else {firstNameError.textContent = "";}
+
+        if (!lastName) {lastNameError.textContent = "Por favor, preencha o campo de sobrenome.";}
+        else {lastNameError.textContent = "";}
+
+        if (!email) {
+            emailError.textContent = "Por favor, preencha o campo de email.";} 
+        else if (!emailPattern.test(email)) {
+            emailError.textContent = "Por favor, insira um email válido.";}
+        else {emailError.textContent = "";}
+
+        if (!message) {
+            messageError.textContent = "Por favor, preencha o campo de mensagem.";}
+        else {messageError.textContent = "";}
+
+        return false; // Retorna falso se algum campo estiver vazio ou inválido
+    }
+    else {
         firstNameError.textContent = "";
         lastNameError.textContent = "";
         emailError.textContent = "";
@@ -52,7 +56,7 @@ function submitForm(event) {
         const message = document.getElementById('message').value;
 
         var blob = new Blob([`Nome: ${name}\nSobrenome: ${lastName}\nEmail: ${email}\nMensagem: ${message}`], { type: 'text/plain: charset=utf-8' });
-        
+
         saveAs(blob, 'formulario.txt'); // Salva o conteúdo do formulário em um arquivo .txt
         alert('Formulário enviado com sucesso!');
         document.getElementById('contact-form').reset(); // Limpa o formulário após o envio
